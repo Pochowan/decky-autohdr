@@ -1,0 +1,283 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1600" height="900" viewBox="0 0 1600 900">
+  <!-- Banner de decky-autohdr. Editable: textos, colores y escena son vectoriales. -->
+  <defs>
+    <!-- Fondo -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0b1026"/>
+      <stop offset="1" stop-color="#05060f"/>
+    </linearGradient>
+    <radialGradient id="glowPurple" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#8b5cf6" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#8b5cf6" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowOrange" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#f97316" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#f97316" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowCyan" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#22d3ee" stop-opacity="0.40"/>
+      <stop offset="1" stop-color="#22d3ee" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="streak" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="0.5" stop-color="#ffffff" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+
+    <!-- Texto -->
+    <linearGradient id="rainbow" gradientUnits="userSpaceOnUse" x1="815" y1="0" x2="1165" y2="0">
+      <stop offset="0" stop-color="#fde047"/>
+      <stop offset="0.3" stop-color="#4ade80"/>
+      <stop offset="0.55" stop-color="#38bdf8"/>
+      <stop offset="0.8" stop-color="#a855f7"/>
+      <stop offset="1" stop-color="#ec4899"/>
+    </linearGradient>
+    <linearGradient id="chipRainbow" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#fde047"/>
+      <stop offset="0.35" stop-color="#4ade80"/>
+      <stop offset="0.65" stop-color="#38bdf8"/>
+      <stop offset="1" stop-color="#ec4899"/>
+    </linearGradient>
+    <linearGradient id="linuxGrad" gradientUnits="userSpaceOnUse" x1="370" y1="0" x2="655" y2="0">
+      <stop offset="0" stop-color="#c084fc"/>
+      <stop offset="1" stop-color="#f472b6"/>
+    </linearGradient>
+    <filter id="textShadow" x="-10%" y="-30%" width="120%" height="160%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="6"/>
+      <feOffset dy="6" result="b"/>
+      <feFlood flood-color="#000" flood-opacity="0.6"/>
+      <feComposite in2="b" operator="in"/>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+
+    <!-- Consola -->
+    <linearGradient id="body" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2a2d36"/>
+      <stop offset="0.5" stop-color="#1b1d24"/>
+      <stop offset="1" stop-color="#111217"/>
+    </linearGradient>
+    <linearGradient id="bodyEdge" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#5b5f6b"/>
+      <stop offset="1" stop-color="#1a1b21"/>
+    </linearGradient>
+    <radialGradient id="stickTop" cx="0.4" cy="0.35" r="0.7">
+      <stop offset="0" stop-color="#3a3d47"/>
+      <stop offset="1" stop-color="#121318"/>
+    </radialGradient>
+    <linearGradient id="rgbEdge" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#22d3ee"/>
+      <stop offset="0.5" stop-color="#a855f7"/>
+      <stop offset="1" stop-color="#f97316"/>
+    </linearGradient>
+
+    <!-- Escena (coordenadas locales 640x400) -->
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1d4ed8"/>
+      <stop offset="0.45" stop-color="#60a5fa"/>
+      <stop offset="0.72" stop-color="#fcd34d"/>
+      <stop offset="0.8" stop-color="#fb923c"/>
+    </linearGradient>
+    <radialGradient id="sunGlow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#fffbeb" stop-opacity="1"/>
+      <stop offset="0.25" stop-color="#fde68a" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#fb923c" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="lake" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fbbf24"/>
+      <stop offset="0.25" stop-color="#3b82f6"/>
+      <stop offset="1" stop-color="#1e3a8a"/>
+    </linearGradient>
+    <linearGradient id="mtFar" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#7c8fc4"/>
+      <stop offset="1" stop-color="#5a6aa0"/>
+    </linearGradient>
+    <linearGradient id="mtNear" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3b4a7a"/>
+      <stop offset="1" stop-color="#26315a"/>
+    </linearGradient>
+    <linearGradient id="hill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#22c55e"/>
+      <stop offset="1" stop-color="#14532d"/>
+    </linearGradient>
+
+    <!-- SDR: menos saturación y contraste. HDR: más saturación, contraste y brillo -->
+    <filter id="sdr" color-interpolation-filters="sRGB">
+      <feColorMatrix type="saturate" values="0.45"/>
+      <feComponentTransfer>
+        <feFuncR type="linear" slope="0.72" intercept="0.13"/>
+        <feFuncG type="linear" slope="0.72" intercept="0.13"/>
+        <feFuncB type="linear" slope="0.72" intercept="0.14"/>
+      </feComponentTransfer>
+    </filter>
+    <filter id="hdr" color-interpolation-filters="sRGB">
+      <feColorMatrix type="saturate" values="1.45"/>
+      <feComponentTransfer>
+        <feFuncR type="linear" slope="1.12" intercept="-0.03"/>
+        <feFuncG type="linear" slope="1.12" intercept="-0.03"/>
+        <feFuncB type="linear" slope="1.12" intercept="-0.03"/>
+      </feComponentTransfer>
+    </filter>
+    <filter id="bloom" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="14"/>
+    </filter>
+    <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="40"/>
+    </filter>
+
+    <clipPath id="screenClip"><rect x="0" y="0" width="640" height="400" rx="10"/></clipPath>
+    <clipPath id="leftHalf"><rect x="0" y="0" width="320" height="400"/></clipPath>
+    <clipPath id="rightHalf"><rect x="320" y="0" width="320" height="400"/></clipPath>
+
+    <!-- La escena se dibuja una vez y se reutiliza en las dos mitades -->
+    <g id="scene">
+      <rect width="640" height="290" fill="url(#sky)"/>
+      <!-- nubes -->
+      <g fill="#ffffff" opacity="0.75">
+        <ellipse cx="110" cy="70" rx="70" ry="16"/>
+        <ellipse cx="150" cy="58" rx="45" ry="16"/>
+        <ellipse cx="420" cy="95" rx="80" ry="14"/>
+        <ellipse cx="560" cy="60" rx="55" ry="13"/>
+      </g>
+      <!-- sol -->
+      <circle cx="470" cy="215" r="85" fill="url(#sunGlow)"/>
+      <circle cx="470" cy="215" r="30" fill="#fffbeb"/>
+      <!-- montañas -->
+      <polygon points="0,250 70,170 140,215 230,130 330,225 420,160 520,230 600,175 640,200 640,290 0,290" fill="url(#mtFar)"/>
+      <polygon points="0,290 0,240 90,200 170,255 250,215 330,265 640,265 640,290" fill="url(#mtNear)"/>
+      <!-- colina con castillo (desplazada a la mitad izquierda) -->
+      <g transform="translate(-95 0)">
+      <path d="M150,290 C190,240 300,225 360,250 C400,265 430,280 450,290 Z" fill="url(#hill)"/>
+      <g fill="#334155">
+        <rect x="255" y="185" width="16" height="60"/>
+        <polygon points="251,187 263,160 275,187"/>
+        <rect x="280" y="170" width="20" height="75"/>
+        <polygon points="276,172 290,138 304,172"/>
+        <rect x="306" y="195" width="14" height="50"/>
+        <polygon points="303,197 313,174 323,197"/>
+        <rect x="262" y="215" width="58" height="30"/>
+      </g>
+      </g>
+      <!-- lago con reflejo del sol -->
+      <rect y="290" width="640" height="110" fill="url(#lake)"/>
+      <ellipse cx="470" cy="300" rx="70" ry="7" fill="#fff7d6" opacity="0.85"/>
+      <ellipse cx="470" cy="318" rx="45" ry="4" fill="#fff7d6" opacity="0.6"/>
+      <ellipse cx="470" cy="334" rx="28" ry="3" fill="#fff7d6" opacity="0.45"/>
+      <!-- árboles -->
+      <g fill="#14532d">
+        <polygon points="20,330 45,250 70,330"/>
+        <polygon points="55,345 85,255 115,345"/>
+        <polygon points="560,340 590,250 620,340"/>
+        <polygon points="595,355 620,280 645,355"/>
+      </g>
+      <g fill="#b91c1c">
+        <circle cx="530" cy="300" r="26"/>
+        <circle cx="510" cy="312" r="18"/>
+      </g>
+      <rect x="527" y="310" width="6" height="30" fill="#3f2a14"/>
+    </g>
+  </defs>
+
+  <!-- ====== Fondo ====== -->
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <ellipse cx="180" cy="760" rx="420" ry="300" fill="url(#glowPurple)"/>
+  <ellipse cx="1450" cy="720" rx="420" ry="320" fill="url(#glowOrange)"/>
+  <ellipse cx="1300" cy="120" rx="380" ry="220" fill="url(#glowCyan)"/>
+  <ellipse cx="260" cy="110" rx="360" ry="200" fill="url(#glowOrange)" opacity="0.6"/>
+  <g opacity="0.7">
+    <rect x="-100" y="430" width="700" height="3" fill="url(#streak)" transform="rotate(-14 250 430)"/>
+    <rect x="1000" y="470" width="700" height="3" fill="url(#streak)" transform="rotate(14 1350 470)"/>
+    <rect x="-50" y="560" width="600" height="2" fill="url(#streak)" transform="rotate(-8 250 560)"/>
+    <rect x="1050" y="600" width="600" height="2" fill="url(#streak)" transform="rotate(8 1350 600)"/>
+  </g>
+
+  <!-- ====== Título ====== -->
+  <g filter="url(#textShadow)" font-family="'Segoe UI Black', 'Arial Black', 'Segoe UI', Arial, sans-serif" font-weight="900" text-anchor="middle">
+    <text x="800" y="175" font-size="150" letter-spacing="-2">
+      <tspan fill="#ffffff">Auto</tspan><tspan fill="url(#rainbow)">HDR</tspan>
+    </text>
+    <text x="800" y="300" font-size="96" letter-spacing="-1">
+      <tspan fill="url(#linuxGrad)">Linux</tspan><tspan fill="#ffffff"> Handhelds</tspan>
+    </text>
+  </g>
+
+  <!-- ====== Consola genérica ====== -->
+  <!-- resplandor bajo la consola -->
+  <ellipse cx="800" cy="885" rx="620" ry="30" fill="#000" opacity="0.6" filter="url(#bloom)"/>
+
+  <!-- gatillos -->
+  <rect x="250" y="352" width="200" height="34" rx="16" fill="#23252d" stroke="#3a3d47" stroke-width="2"/>
+  <rect x="1150" y="352" width="200" height="34" rx="16" fill="#23252d" stroke="#3a3d47" stroke-width="2"/>
+
+  <!-- cuerpo -->
+  <rect x="150" y="370" width="1300" height="505" rx="150" fill="url(#bodyEdge)"/>
+  <rect x="155" y="374" width="1290" height="496" rx="146" fill="url(#body)"/>
+  <!-- tira RGB -->
+  <rect x="300" y="868" width="1000" height="3" rx="1.5" fill="url(#rgbEdge)" opacity="0.8"/>
+
+  <!-- marco de la pantalla (16:10) -->
+  <rect x="460" y="410" width="680" height="440" rx="22" fill="#08090c"/>
+  <rect x="460" y="410" width="680" height="440" rx="22" fill="none" stroke="#2c2f38" stroke-width="2"/>
+
+  <!-- pantalla: 640x400 (16:10) en (480,430) -->
+  <g transform="translate(480 430)">
+    <g clip-path="url(#screenClip)">
+      <g clip-path="url(#leftHalf)" filter="url(#sdr)"><use xlink:href="#scene"/></g>
+      <g clip-path="url(#rightHalf)" filter="url(#hdr)"><use xlink:href="#scene"/></g>
+      <!-- brillo extra del sol en la mitad HDR -->
+      <g clip-path="url(#rightHalf)">
+        <circle cx="470" cy="215" r="60" fill="#fff7d6" opacity="0.55" filter="url(#bloom)"/>
+        <ellipse cx="470" cy="300" rx="80" ry="10" fill="#fff7d6" opacity="0.5" filter="url(#bloom)"/>
+      </g>
+      <!-- divisor -->
+      <rect x="318.5" y="0" width="3" height="400" fill="#ffffff" opacity="0.9"/>
+      <rect x="312" y="0" width="16" height="400" fill="#f0abfc" opacity="0.35" filter="url(#bloom)"/>
+    </g>
+    <!-- etiquetas -->
+    <g font-family="'Segoe UI', Arial, sans-serif" font-weight="800" font-size="30">
+      <rect x="18" y="18" width="92" height="46" rx="10" fill="#111318" opacity="0.85"/>
+      <text x="64" y="52" fill="#e5e7eb" text-anchor="middle">SDR</text>
+      <rect x="528" y="18" width="94" height="46" rx="10" fill="#111318" opacity="0.9" stroke="url(#chipRainbow)" stroke-width="3"/>
+      <text x="575" y="52" fill="#ffffff" text-anchor="middle">HDR</text>
+    </g>
+  </g>
+
+  <!-- agarre izquierdo: stick arriba, cruceta abajo -->
+  <g>
+    <circle cx="300" cy="520" r="74" fill="#0d0e12"/>
+    <circle cx="300" cy="520" r="58" fill="url(#stickTop)"/>
+    <circle cx="300" cy="520" r="40" fill="none" stroke="#2f323b" stroke-width="3"/>
+    <g fill="#1f2128" stroke="#3a3d47" stroke-width="2">
+      <rect x="280" y="640" width="40" height="110" rx="8"/>
+      <rect x="245" y="675" width="110" height="40" rx="8"/>
+    </g>
+    <rect x="390" y="430" width="34" height="18" rx="6" fill="#2a2d36"/>
+  </g>
+
+  <!-- agarre derecho: botones arriba, stick abajo -->
+  <g font-family="'Segoe UI', Arial, sans-serif" font-weight="700" font-size="22" text-anchor="middle">
+    <g fill="#1f2128" stroke="#3a3d47" stroke-width="2">
+      <circle cx="1300" cy="470" r="26"/>
+      <circle cx="1300" cy="580" r="26"/>
+      <circle cx="1245" cy="525" r="26"/>
+      <circle cx="1355" cy="525" r="26"/>
+    </g>
+    <g fill="#cbd5e1">
+      <text x="1300" y="478">Y</text>
+      <text x="1300" y="588">A</text>
+      <text x="1245" y="533">X</text>
+      <text x="1355" y="533">B</text>
+    </g>
+    <circle cx="1300" cy="705" r="74" fill="#0d0e12"/>
+    <circle cx="1300" cy="705" r="58" fill="url(#stickTop)"/>
+    <circle cx="1300" cy="705" r="40" fill="none" stroke="#2f323b" stroke-width="3"/>
+    <rect x="1176" y="430" width="34" height="18" rx="6" fill="#2a2d36"/>
+  </g>
+
+  <!-- rejillas de altavoz -->
+  <g fill="#0b0c10">
+    <circle cx="400" cy="790" r="4"/><circle cx="414" cy="790" r="4"/><circle cx="428" cy="790" r="4"/>
+    <circle cx="400" cy="804" r="4"/><circle cx="414" cy="804" r="4"/><circle cx="428" cy="804" r="4"/>
+    <circle cx="1172" cy="790" r="4"/><circle cx="1186" cy="790" r="4"/><circle cx="1200" cy="790" r="4"/>
+    <circle cx="1172" cy="804" r="4"/><circle cx="1186" cy="804" r="4"/><circle cx="1200" cy="804" r="4"/>
+  </g>
+</svg>

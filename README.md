@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="assets/banner.webp" alt="AutoHDR for Linux handhelds: SDR vs HDR comparison" width="100%">
+<img src="assets/banner.png" alt="AutoHDR for Linux handhelds: SDR vs HDR comparison" width="100%">
 
 # AutoHDR for Decky
 

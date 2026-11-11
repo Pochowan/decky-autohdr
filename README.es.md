@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="assets/banner.webp" alt="AutoHDR para portátiles Linux: comparación SDR vs HDR" width="100%">
+<img src="assets/banner.png" alt="AutoHDR para portátiles Linux: comparación SDR vs HDR" width="100%">
 
 # AutoHDR para Decky
 
