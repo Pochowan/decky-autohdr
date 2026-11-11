@@ -30,12 +30,12 @@
       ]
     }
   },
-  "author": "Pochowandpoch",
+  "author": "Pochowan",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Pochowandpoch/decky-autohdr.git"
+    "url": "https://github.com/Pochowan/decky-autohdr.git"
   },
-  "homepage": "https://github.com/Pochowandpoch/decky-autohdr",
+  "homepage": "https://github.com/Pochowan/decky-autohdr",
   "keywords": [
     "decky",
     "plugin",

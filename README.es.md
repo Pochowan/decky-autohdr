@@ -6,8 +6,8 @@
 
 **AutoHDR estilo Windows 11 para portátiles Linux: HDR10 real en juegos que solo emiten SDR.**
 
-[![Build](https://github.com/Pochowandpoch/decky-autohdr/actions/workflows/build.yml/badge.svg)](https://github.com/Pochowandpoch/decky-autohdr/actions/workflows/build.yml)
-[![Release](https://img.shields.io/github/v/release/Pochowandpoch/decky-autohdr)](https://github.com/Pochowandpoch/decky-autohdr/releases/latest)
+[![Build](https://github.com/Pochowan/decky-autohdr/actions/workflows/build.yml/badge.svg)](https://github.com/Pochowan/decky-autohdr/actions/workflows/build.yml)
+[![Release](https://img.shields.io/github/v/release/Pochowan/decky-autohdr)](https://github.com/Pochowan/decky-autohdr/releases/latest)
 [![Licencia: MIT](https://img.shields.io/badge/licencia-MIT-blue.svg)](LICENSE)
 
 [English](README.md) · Español
@@ -45,7 +45,7 @@ Se agradecen mucho los informes de otros dispositivos.
 
 ## Instalación
 
-1. Descarga `decky-autohdr-vX.Y.Z.zip` de la [última release](https://github.com/Pochowandpoch/decky-autohdr/releases/latest).
+1. Descarga `decky-autohdr-vX.Y.Z.zip` de la [última release](https://github.com/Pochowan/decky-autohdr/releases/latest).
 2. En el modo juego: **Decky → ⚙ Ajustes → General** y activa el **Modo desarrollador**.
 3. **Decky → ⚙ Ajustes → Developer → Install Plugin from ZIP File** y elige el ZIP.
 4. Abre el menú de acceso rápido (`…`), entra en el icono **HDR** y activa **AutoHDR**.
@@ -102,7 +102,7 @@ los juegos online primero con una cuenta secundaria, o exclúyelos con `DISABLE_
 |---|---|
 | El panel sigue en SDR | Reinicia el juego después de activar AutoHDR y pulsa **Diagnóstico**. |
 | "gamescope no ofreció formatos HDR10" | El HDR está desactivado en gamescope o tu pantalla no se detecta como HDR. |
-| Pantalla negra, colores raros o cierre al abrir | Añade `DISABLE_AUTOHDR=1 %command%` a ese juego y [abre una incidencia](https://github.com/Pochowandpoch/decky-autohdr/issues/new/choose). |
+| Pantalla negra, colores raros o cierre al abrir | Añade `DISABLE_AUTOHDR=1 %command%` a ese juego y [abre una incidencia](https://github.com/Pochowan/decky-autohdr/issues/new/choose). |
 | El plugin se queda en "Cargando…" | Reinicia Decky o la consola. |
 
 Registros:
@@ -143,4 +143,4 @@ Ver [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 
 ## Licencia
 
-[MIT](LICENSE) © 2026 Pochowandpoch
+[MIT](LICENSE) © 2026 Pochowan

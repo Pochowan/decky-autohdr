@@ -6,8 +6,8 @@
 
 **Windows-11-style AutoHDR for Linux handhelds: real HDR10 in games that only output SDR.**
 
-[![Build](https://github.com/Pochowandpoch/decky-autohdr/actions/workflows/build.yml/badge.svg)](https://github.com/Pochowandpoch/decky-autohdr/actions/workflows/build.yml)
-[![Release](https://img.shields.io/github/v/release/Pochowandpoch/decky-autohdr)](https://github.com/Pochowandpoch/decky-autohdr/releases/latest)
+[![Build](https://github.com/Pochowan/decky-autohdr/actions/workflows/build.yml/badge.svg)](https://github.com/Pochowan/decky-autohdr/actions/workflows/build.yml)
+[![Release](https://img.shields.io/github/v/release/Pochowan/decky-autohdr)](https://github.com/Pochowan/decky-autohdr/releases/latest)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 English · [Español](README.es.md)
@@ -45,7 +45,7 @@ Reports from other devices are very welcome.
 
 ## Installation
 
-1. Download `decky-autohdr-vX.Y.Z.zip` from the [latest release](https://github.com/Pochowandpoch/decky-autohdr/releases/latest).
+1. Download `decky-autohdr-vX.Y.Z.zip` from the [latest release](https://github.com/Pochowan/decky-autohdr/releases/latest).
 2. In Gaming Mode: **Decky → ⚙ Settings → General**, then enable **Developer mode**.
 3. **Decky → ⚙ Settings → Developer → Install Plugin from ZIP File**, and pick the ZIP.
 4. Open the Quick Access Menu (`…`), select the **HDR** icon and enable **AutoHDR**.
@@ -102,7 +102,7 @@ on a secondary account first, or exclude them with `DISABLE_AUTOHDR=1 %command%`
 |---|---|
 | Panel stays in SDR | Restart the game after enabling AutoHDR. Then press **Diagnostics**. |
 | "gamescope offered no HDR10 formats" | HDR is disabled in gamescope, or your display isn't detected as HDR. |
-| Black screen, wrong colors or crash at launch | Add `DISABLE_AUTOHDR=1 %command%` for that game and [open an issue](https://github.com/Pochowandpoch/decky-autohdr/issues/new/choose). |
+| Black screen, wrong colors or crash at launch | Add `DISABLE_AUTOHDR=1 %command%` for that game and [open an issue](https://github.com/Pochowan/decky-autohdr/issues/new/choose). |
 | Plugin stuck on "Loading…" | Restart Decky or the console. |
 
 Logs:
@@ -149,4 +149,4 @@ See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 
 ## License
 
-[MIT](LICENSE) © 2026 Pochowandpoch
+[MIT](LICENSE) © 2026 Pochowan

@@ -22,4 +22,4 @@ First public release.
   中文, 日本語, Русский. Automatic mode follows Steam's language.
 - Per-game opt-out with the `DISABLE_AUTOHDR=1 %command%` launch option.
 
-[1.0.0]: https://github.com/Pochowandpoch/decky-autohdr/releases/tag/v1.0.0
+[1.0.0]: https://github.com/Pochowan/decky-autohdr/releases/tag/v1.0.0
