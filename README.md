@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="assets/banner.webp" alt="AutoHDR for Linux handhelds: SDR vs HDR comparison" width="100%">
+
 # AutoHDR for Decky
 
 **Windows-11-style AutoHDR for Linux handhelds: real HDR10 in games that only output SDR.**
@@ -9,8 +11,6 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 English · [Español](README.es.md)
-
-<img src="assets/hdr-quick-settings.jpg" alt="Steam Quick Settings showing the HDR badge while a game runs with AutoHDR" width="420">
 
 </div>
 
@@ -25,6 +25,13 @@ English · [Español](README.es.md)
 - **Diagnostics** that read the real panel state from the kernel.
 - **10 languages**: Español, English, Français, Deutsch, Italiano, Português, Català,
   中文, 日本語, Русский. Automatic mode follows Steam's language.
+
+## Screenshot
+
+<img src="assets/hdr-quick-settings.jpg" alt="Steam Quick Settings showing the HDR badge while an SDR game runs with AutoHDR" width="420">
+
+*An SDR game (Gunfire Reborn) running with AutoHDR. Steam's Quick Settings show the **HDR** badge
+because the panel is really in HDR10 mode.*
 
 ## Requirements
 
