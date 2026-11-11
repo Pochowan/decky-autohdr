@@ -1,0 +1,50 @@
+name: Bug report / Informe de error
+description: Something doesn't work as expected / Algo no funciona como debería
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting! Please fill in as much as you can. / ¡Gracias por avisar! Rellena todo lo que puedas.
+  - type: input
+    id: device
+    attributes:
+      label: Device and display / Dispositivo y pantalla
+      placeholder: "e.g. Steam Deck OLED, OneXPlayer X2 Mini Pro, ROG Ally X, external HDR TV"
+    validations:
+      required: true
+  - type: input
+    id: os
+    attributes:
+      label: OS and version / Sistema y versión
+      placeholder: "e.g. SteamOS 3.7, Bazzite 43, Anatase 20261019"
+    validations:
+      required: true
+  - type: input
+    id: plugin
+    attributes:
+      label: Plugin version / Versión del plugin
+      placeholder: "e.g. 1.0.0"
+    validations:
+      required: true
+  - type: input
+    id: game
+    attributes:
+      label: Game(s) and Proton version / Juego(s) y versión de Proton
+      placeholder: "e.g. Gunfire Reborn, Proton 10.0"
+  - type: textarea
+    id: what
+    attributes:
+      label: What happens? / ¿Qué ocurre?
+      description: What you expected and what happened instead. / Qué esperabas y qué ocurrió.
+    validations:
+      required: true
+  - type: textarea
+    id: diagnostics
+    attributes:
+      label: Logs / Registros
+      description: |
+        Press **Diagnostics** in the plugin with the game running, then attach / Pulsa **Diagnóstico** con el juego abierto y adjunta:
+        - `~/homebrew/logs/autohdr-gamescope/` (latest log / último log)
+        - `~/.config/autohdr/layer.log`
+      render: text

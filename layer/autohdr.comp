@@ -1,0 +1,123 @@
+#version 450
+// AutoHDR: SDR -> HDR10 (PQ / BT.2020).
+// Port de la matemática de "AutoHDR.fx" (ReShade, HCRT, (c) 2022 MajorPainTheCactus, MIT;
+// ver THIRD_PARTY_NOTICES.md):
+//   gradación (balance de blancos, brillo/contraste Bezier, saturación),
+//   tonemap inverso Reinhard, expansión de gama 709 -> 2020 y codificación ST.2084.
+
+layout(local_size_x = 16, local_size_y = 16) in;
+
+layout(set = 0, binding = 0) uniform sampler2D srcImage;
+layout(set = 0, binding = 1, rgb10_a2) uniform writeonly image2D dstImage;
+
+layout(push_constant) uniform PC {
+    vec4  wb;          // ganancias RGB del balance de blancos (1,1,1 = neutro)
+    float paperWhite;  // nits del blanco SDR
+    float peak;        // nits máximos del tonemap inverso
+    float brightness;  // -1..1
+    float contrast;    // -1..1
+    float saturation;  // -1..1
+    float gammaIn;     // exponente de entrada (2.2 + ajuste)
+    uint  flags;       // bit0: vista sRGB (ya lineal), bit1: expandir gama, bit2: AutoHDR activo, bit3: gradación
+    uint  pad;
+    ivec2 size;
+} pc;
+
+const uint F_SRGB_VIEW = 1u;
+const uint F_EXPAND    = 2u;
+const uint F_ENABLED   = 4u;
+const uint F_GRADE     = 8u;
+
+const vec3 LUMA709 = vec3(0.2126, 0.7152, 0.0722);
+const float EPS = 0.0001;
+
+// --- Curvas Bezier (idénticas al shader) -------------------------------------
+float bezier(float t, vec4 p) {
+    float mt = 1.0 - t;
+    return mt * mt * mt * p.x + 3.0 * mt * mt * t * p.y + 3.0 * mt * t * t * p.z + t * t * t * p.w;
+}
+
+const vec4 MID         = vec4(0.0, 1.0 / 3.0, 2.0 / 3.0, 1.0);
+const vec4 BRIGHT_TOP  = vec4(0.0, 1.0, 1.0, 1.0);
+const vec4 BRIGHT_BOT  = vec4(0.0, 0.0, 0.0, 1.0);
+const vec4 CONTR_TOP   = vec4(0.0, 0.0, 1.0, 1.0);
+const vec4 CONTR_BOT   = vec4(0.0, 1.0, 0.0, 1.0);
+
+vec3 grade(vec3 c) {
+    // Balance de blancos conservando luminancia
+    float y0 = dot(c, LUMA709);
+    c *= pc.wb.rgb;
+    c *= y0 / max(dot(c, LUMA709), 1e-5);
+
+    // Brillo + contraste sobre Y en gamma 2.4, conservando cromaticidad
+    float y = dot(c, LUMA709);
+    if (y > 1e-7) {
+        float yg = clamp(pow(y, 1.0 / 2.4), 0.0, 1.0);
+        vec4 bp = mix(MID, pc.brightness >= 0.0 ? BRIGHT_TOP : BRIGHT_BOT, abs(pc.brightness));
+        vec4 cp = mix(MID, pc.contrast >= 0.0 ? CONTR_TOP : CONTR_BOT, abs(pc.contrast));
+        yg = bezier(bezier(yg, bp), cp);
+        float y2 = pow(clamp(yg, 0.0, 1.0), 2.4);
+        c = clamp(c * (y2 / y), 0.0, 1.0);
+    }
+
+    // Saturación
+    float l = dot(c, LUMA709);
+    return clamp(mix(vec3(l), c, 1.0 + pc.saturation), 0.0, 1.0);
+}
+
+// --- Tonemap inverso (InverseTonemap de AutoHDR.fx) ---------------------------
+vec3 inverseTonemap(vec3 sdrLinear) {
+    float luma = dot(sdrLinear, LUMA709);
+    float maxValue = (pc.peak / pc.paperWhite) + EPS;
+    float elbow = maxValue / (maxValue - 1.0);
+    float offs = 1.0 - ((0.5 * elbow) / (elbow - 0.5));
+    float hdrLuma = offs + ((luma * elbow) / (elbow - luma));
+    float sdrLuma = luma / ((1.0 + EPS) - luma);
+    float lumaInv = (luma > 0.5) ? hdrLuma : sdrLuma;
+    return sdrLinear / (luma + EPS) * lumaInv;
+}
+
+// --- Gama y PQ ----------------------------------------------------------------
+// Matrices del HLSL (por filas) escritas por columnas para GLSL (column-major)
+const mat3 M709_TO_2020 = mat3(
+    vec3(0.6274040, 0.0690970, 0.0163916),
+    vec3(0.3292820, 0.9195400, 0.0880132),
+    vec3(0.0433136, 0.0113612, 0.8955950));
+// "Vivid": versión expandida de Microsoft (Xbox ATG HDR samples, MIT)
+const mat3 M709_TO_2020_EXPANDED = mat3(
+    vec3(0.6274040, 0.0457456, -0.00121055),
+    vec3(0.3292820, 0.941777,   0.0176041),
+    vec3(0.0433136, 0.0124772,  0.983607));
+
+vec3 linearToPQ(vec3 n) {  // n = luminancia normalizada a 10000 nits
+    vec3 p = pow(max(n, vec3(0.0)), vec3(0.1593017578125));
+    return pow((vec3(0.8359375) + 18.8515625 * p) / (vec3(1.0) + 18.6875 * p), vec3(78.84375));
+}
+
+void main() {
+    ivec2 pos = ivec2(gl_GlobalInvocationID.xy);
+    if (pos.x >= pc.size.x || pos.y >= pc.size.y) return;
+
+    vec3 c = texelFetch(srcImage, pos, 0).rgb;
+
+    // A lineal. Si la vista es sRGB el muestreo ya devuelve lineal (sRGB);
+    // se aplica solo la diferencia de gamma elegida por el usuario.
+    if ((pc.flags & F_SRGB_VIEW) != 0u) {
+        if (abs(pc.gammaIn - 2.2) > 0.001) c = pow(max(c, vec3(0.0)), vec3(pc.gammaIn / 2.2));
+    } else {
+        c = pow(max(c, vec3(0.0)), vec3(pc.gammaIn));
+    }
+    c = clamp(c, 0.0, 1.0);
+
+    vec3 hdr;
+    if ((pc.flags & F_ENABLED) != 0u) {
+        if ((pc.flags & F_GRADE) != 0u) c = grade(c);
+        hdr = inverseTonemap(c);
+    } else {
+        hdr = c;  // desactivado en caliente: SDR tal cual, al nivel de "paper white"
+    }
+
+    vec3 rec2020 = ((pc.flags & F_EXPAND) != 0u) ? (M709_TO_2020_EXPANDED * hdr) : (M709_TO_2020 * hdr);
+    vec3 pq = linearToPQ(rec2020 * (pc.paperWhite / 10000.0));
+    imageStore(dstImage, pos, vec4(pq, 1.0));
+}

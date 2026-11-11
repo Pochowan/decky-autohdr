@@ -1,0 +1,15 @@
+{
+  "name": "AutoHDR Gamescope",
+  "author": "Pochowandpoch",
+  "flags": [],
+  "api_version": 1,
+  "publish": {
+    "tags": [
+      "hdr",
+      "display",
+      "gamescope"
+    ],
+    "description": "SDR to HDR10 conversion (like Windows 11 AutoHDR) through a native Vulkan layer: global or per-game, with brightness, contrast and color settings. No DLL injection into the game. UI in 10 languages.",
+    "image": ""
+  }
+}

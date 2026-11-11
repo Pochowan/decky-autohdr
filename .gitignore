@@ -1,0 +1,17 @@
+# Dependencias y compilados (los genera GitHub Actions en cada release)
+node_modules/
+dist/
+bin/
+layer/autohdr_spv.h
+out/
+*.zip
+
+# Python
+__pycache__/
+*.pyc
+
+# Sistema / editores
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

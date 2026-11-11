@@ -1,0 +1,10 @@
+name: Feature request / Sugerencia
+description: Ideas to improve AutoHDR / Ideas para mejorar AutoHDR
+labels: [enhancement]
+body:
+  - type: textarea
+    id: idea
+    attributes:
+      label: Your idea / Tu idea
+    validations:
+      required: true
