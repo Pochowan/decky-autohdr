@@ -94,6 +94,66 @@ function appName(appid: string): string {
   return `App ${appid}`;
 }
 
+// ---- Opciones de lanzamiento de Steam -------------------------------------------
+// Algunos juegos (Elden Ring, Nightreign y otros de From Software) activan su propio
+// HDR en cuanto la pantalla está en HDR, y se suma al de AutoHDR (imagen lavada).
+// DXVK_HDR=0 hace que DXVK/vkd3d le digan al juego que la pantalla es SDR.
+const HIDE_HDR_TOKEN = "DXVK_HDR=0";
+const HIDE_HDR_RE = /(^|\s)DXVK_HDR=0(?=\s|$)/;
+
+function getLaunchOptions(appid: string): Promise<string | null> {
+  return new Promise((resolve) => {
+    const sc = (window as any).SteamClient;
+    let done = false;
+    let reg: any = null;
+    const finish = (v: string | null) => {
+      if (done) return;
+      done = true;
+      try {
+        reg?.unregister?.();
+      } catch {
+        /* ignorar */
+      }
+      resolve(v);
+    };
+    try {
+      reg = sc?.Apps?.RegisterForAppDetails?.(Number(appid), (d: any) => finish(d?.strLaunchOptions ?? ""));
+    } catch {
+      finish(null);
+    }
+    setTimeout(() => finish(null), 3000);
+  });
+}
+
+function withHideHdr(opts: string, enable: boolean): string {
+  const current = opts.trim();
+  if (!enable) {
+    const cleaned = current.replace(HIDE_HDR_RE, " ").replace(/\s+/g, " ").trim();
+    return cleaned === "%command%" ? "" : cleaned;
+  }
+  if (HIDE_HDR_RE.test(current) && !/(^|\s)DXVK_HDR=(?!0(\s|$))\S*/.test(current)) return current;
+  // Quita cualquier otro DXVK_HDR=... (si hubiera DXVK_HDR=1 detrás, ganaría ese)
+  const base = current.replace(/(^|\s)DXVK_HDR=\S*/g, " ").replace(/\s+/g, " ").trim();
+  return withHideHdrClean(base);
+}
+
+function withHideHdrClean(current: string): string {
+  if (current === "") return `${HIDE_HDR_TOKEN} %command%`;
+  if (current.includes("%command%")) return `${HIDE_HDR_TOKEN} ${current}`;
+  // Sin %command%, Steam añade las opciones como argumentos del juego
+  return `${HIDE_HDR_TOKEN} %command% ${current}`;
+}
+
+function setLaunchOptions(appid: string, opts: string): boolean {
+  try {
+    (window as any).SteamClient.Apps.SetAppLaunchOptions(Number(appid), opts);
+    return true;
+  } catch (e) {
+    console.error("AutoHDR: SetAppLaunchOptions falló", e);
+    return false;
+  }
+}
+
 type T = (key: Key, params?: Record<string, string | number>) => string;
 
 function statusText(t: T, st: Status): string {
@@ -202,6 +262,15 @@ function Content() {
     return () => window.clearTimeout(timer.current);
   }, []);
 
+  // ¿Tiene el juego actual DXVK_HDR=0 en sus opciones de lanzamiento? (null = desconocido)
+  const [hideNative, setHideNative] = useState<boolean | null>(null);
+  const currentAppId = state?.current_app?.appid;
+  useEffect(() => {
+    setHideNative(null);
+    if (!currentAppId) return;
+    getLaunchOptions(currentAppId).then((o) => setHideNative(o === null ? null : HIDE_HDR_RE.test(o)));
+  }, [currentAppId]);
+
   const lang = resolveLang(state?.language);
   const t: T = (key, params) => translate(lang, key, params);
 
@@ -275,6 +344,23 @@ function Content() {
               onChange={(o) => setGameMode(o.data === "custom")}
             />
           </PanelSectionRow>
+          {hideNative !== null && (
+            <PanelSectionRow>
+              <ToggleField
+                label={t("hide_native")}
+                description={t("hide_native_desc")}
+                checked={hideNative}
+                onChange={async (v) => {
+                  const current = await getLaunchOptions(app.appid);
+                  if (current === null) return;
+                  if (setLaunchOptions(app.appid, withHideHdr(current, v))) {
+                    setHideNative(v);
+                    toaster.toast({ title: "AutoHDR", body: t("restart_game") });
+                  }
+                }}
+              />
+            </PanelSectionRow>
+          )}
           {game && (
             <PanelSectionRow>
               <ButtonItem layout="below" onClick={async () => setState(await removeGame(app.appid))}>

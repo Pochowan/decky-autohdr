@@ -4,6 +4,15 @@ All notable changes to this project are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/) and the project uses
 [Semantic Versioning](https://semver.org/).
 
+## [1.1.0] - 2026-11-14
+
+### Added
+- Per-game switch **Hide the game's native HDR**. Some games (Elden Ring, Nightreign and other
+  FromSoftware titles) turn on their own HDR as soon as the display is in HDR. It stacks on top of
+  AutoHDR and makes colors look washed out. The switch adds `DXVK_HDR=0` to the game's Steam launch
+  options so the game sees an SDR display, and removes it when turned off. Existing launch options
+  are kept. Available in all 10 languages.
+
 ## [1.0.0] - 2026-11-11
 
 First public release.
@@ -22,4 +31,5 @@ First public release.
   中文, 日本語, Русский. Automatic mode follows Steam's language.
 - Per-game opt-out with the `DISABLE_AUTOHDR=1 %command%` launch option.
 
+[1.1.0]: https://github.com/Pochowan/decky-autohdr/releases/tag/v1.1.0
 [1.0.0]: https://github.com/Pochowan/decky-autohdr/releases/tag/v1.0.0

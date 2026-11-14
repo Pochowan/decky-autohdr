@@ -23,6 +23,8 @@ English · [Español](README.es.md)
 - **Live controls**: paper white, peak brightness, Vivid gamut, brightness, contrast, saturation,
   color temperature and gamma.
 - **Diagnostics** that read the real panel state from the kernel.
+- **Native-HDR blocker** for games that switch on their own washed-out HDR (Elden Ring, Nightreign…),
+  with one switch per game.
 - **10 languages**: Español, English, Français, Deutsch, Italiano, Português, Català,
   中文, 日本語, Русский. Automatic mode follows Steam's language.
 
@@ -101,6 +103,7 @@ on a secondary account first, or exclude them with `DISABLE_AUTOHDR=1 %command%`
 | Problem | What to check |
 |---|---|
 | Panel stays in SDR | Restart the game after enabling AutoHDR. Then press **Diagnostics**. |
+| HDR is on but colors look washed out (Elden Ring, Nightreign…) | The game is applying its own HDR on top of AutoHDR. Turn on **Hide the game's native HDR** for that game (it adds `DXVK_HDR=0` to its launch options) and restart it. |
 | "gamescope offered no HDR10 formats" | HDR is disabled in gamescope, or your display isn't detected as HDR. |
 | Black screen, wrong colors or crash at launch | Add `DISABLE_AUTOHDR=1 %command%` for that game and [open an issue](https://github.com/Pochowan/decky-autohdr/issues/new/choose). |
 | Plugin stuck on "Loading…" | Restart Decky or the console. |
