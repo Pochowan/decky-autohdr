@@ -97,6 +97,11 @@ function appName(appid: string): string {
 /** Valor del desplegable para el perfil global. */
 const GLOBAL = "__global__";
 
+// La selección se guarda fuera del componente: Decky puede volver a montar el panel
+// (por ejemplo al cerrar un desplegable) y el estado local de React se perdería.
+let persistedSelection: string = GLOBAL;
+let lastAutoSelectedApp: string | undefined;
+
 /** Juegos instalados de la biblioteca de Steam (incluye accesos directos no-Steam). */
 function libraryGames(): { appid: string; name: string }[] {
   const w = window as any;
@@ -287,10 +292,18 @@ function Content() {
 
   // Perfil que se está editando: GLOBAL o el AppID de un juego (abierto o no).
   // Cuando se abre un juego, se selecciona automáticamente.
-  const [selected, setSelected] = useState<string>(GLOBAL);
+  const [selected, setSelectedState] = useState<string>(persistedSelection);
+  const setSelected = (v: string) => {
+    persistedSelection = v;
+    setSelectedState(v);
+  };
   const currentAppId = state?.current_app?.appid;
   useEffect(() => {
-    if (currentAppId) setSelected(currentAppId);
+    // Solo al abrirse un juego nuevo; no pisa la elección del usuario en cada render
+    if (currentAppId && currentAppId !== lastAutoSelectedApp) {
+      lastAutoSelectedApp = currentAppId;
+      setSelected(currentAppId);
+    }
   }, [currentAppId]);
 
   // Lista de juegos instalados (se lee una vez al abrir el panel)
@@ -442,9 +455,24 @@ function Content() {
         </PanelSection>
       )}
 
-      <PanelSection title={editingGame ? t("sec_game") : t("sec_global")}>
-        <ProfileEditor p={profile} onChange={updateProfile} t={t} />
-      </PanelSection>
+      {app && !editingGame ? (
+        // Juego sin perfil propio: no se muestran los sliders del global para no
+        // cambiarlo por error; se ofrece crear el perfil del juego.
+        <PanelSection title={t("sec_game")}>
+          <PanelSectionRow>
+            <Field description={t("uses_global_hint")} bottomSeparator="none" />
+          </PanelSectionRow>
+          <PanelSectionRow>
+            <ButtonItem layout="below" onClick={() => setGameMode(true)}>
+              {t("create_custom")}
+            </ButtonItem>
+          </PanelSectionRow>
+        </PanelSection>
+      ) : (
+        <PanelSection title={editingGame ? t("sec_game") : t("sec_global")}>
+          <ProfileEditor p={profile} onChange={updateProfile} t={t} />
+        </PanelSection>
+      )}
 
       <PanelSection title={t("options")}>
         <PanelSectionRow>
