@@ -19,7 +19,8 @@ English · [Español](README.es.md)
 - **Real HDR10 output.** The panel switches into HDR mode, just like with a native HDR game.
   This is not a color filter.
 - **No DLL injection.** Unlike ReShade, nothing is loaded into the Windows side of the game.
-- **Global or per-game profiles**, applied automatically when a game starts.
+- **Global or per-game profiles**, applied automatically when a game starts. Any installed game
+  can be set up from the plugin without launching it.
 - **Live controls**: paper white, peak brightness, Vivid gamut, brightness, contrast, saturation,
   color temperature and gamma.
 - **Diagnostics** that read the real panel state from the kernel.

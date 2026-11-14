@@ -7,6 +7,9 @@ The format follows [Keep a Changelog](https://keepachangelog.com/) and the proje
 ## [1.1.0] - 2026-11-14
 
 ### Added
+- **Edit profiles** selector: pick the global profile or any installed game (Steam and non-Steam)
+  and set up its profile and launch options without launching it. Games with their own profile
+  are marked with ★ and listed first. The running game is selected automatically.
 - Per-game switch **Hide the game's native HDR**. Some games (Elden Ring, Nightreign and other
   FromSoftware titles) turn on their own HDR as soon as the display is in HDR. It stacks on top of
   AutoHDR and makes colors look washed out. The switch adds `DXVK_HDR=0` to the game's Steam launch

@@ -94,6 +94,29 @@ function appName(appid: string): string {
   return `App ${appid}`;
 }
 
+/** Valor del desplegable para el perfil global. */
+const GLOBAL = "__global__";
+
+/** Juegos instalados de la biblioteca de Steam (incluye accesos directos no-Steam). */
+function libraryGames(): { appid: string; name: string }[] {
+  const w = window as any;
+  const out = new Map<string, string>();
+  const add = (apps: any) => {
+    try {
+      for (const a of apps ?? []) {
+        const id = a?.appid != null ? String(a.appid) : "";
+        const name = a?.display_name;
+        if (id && id !== "0" && name && !out.has(id)) out.set(id, String(name));
+      }
+    } catch {
+      /* ignorar */
+    }
+  };
+  add(w.collectionStore?.localGamesCollection?.allApps);
+  add(w.collectionStore?.deckDesktopApps?.allApps);
+  return [...out].map(([appid, name]) => ({ appid, name }));
+}
+
 // ---- Opciones de lanzamiento de Steam -------------------------------------------
 // Algunos juegos (Elden Ring, Nightreign y otros de From Software) activan su propio
 // HDR en cuanto la pantalla está en HDR, y se suma al de AutoHDR (imagen lavada).
@@ -262,14 +285,31 @@ function Content() {
     return () => window.clearTimeout(timer.current);
   }, []);
 
-  // ¿Tiene el juego actual DXVK_HDR=0 en sus opciones de lanzamiento? (null = desconocido)
-  const [hideNative, setHideNative] = useState<boolean | null>(null);
+  // Perfil que se está editando: GLOBAL o el AppID de un juego (abierto o no).
+  // Cuando se abre un juego, se selecciona automáticamente.
+  const [selected, setSelected] = useState<string>(GLOBAL);
   const currentAppId = state?.current_app?.appid;
   useEffect(() => {
-    setHideNative(null);
-    if (!currentAppId) return;
-    getLaunchOptions(currentAppId).then((o) => setHideNative(o === null ? null : HIDE_HDR_RE.test(o)));
+    if (currentAppId) setSelected(currentAppId);
   }, [currentAppId]);
+
+  // Lista de juegos instalados (se lee una vez al abrir el panel)
+  const [library, setLibrary] = useState<{ appid: string; name: string }[]>([]);
+  useEffect(() => {
+    setLibrary(libraryGames());
+  }, []);
+
+  // ¿Tiene el juego seleccionado DXVK_HDR=0 en sus opciones de lanzamiento? (null = desconocido)
+  const [hideNative, setHideNative] = useState<boolean | null>(null);
+  useEffect(() => {
+    setHideNative(null);
+    if (selected === GLOBAL) return;
+    let alive = true;
+    getLaunchOptions(selected).then((o) => alive && setHideNative(o === null ? null : HIDE_HDR_RE.test(o)));
+    return () => {
+      alive = false;
+    };
+  }, [selected]);
 
   const lang = resolveLang(state?.language);
   const t: T = (key, params) => translate(lang, key, params);
@@ -291,10 +331,29 @@ function Content() {
     );
   }
 
-  const app = state.current_app;
+  const running = state.current_app;
+
+  // Juego seleccionado (null = perfil global)
+  const nameOf = (id: string) =>
+    state.games[id]?.name ?? library.find((g) => g.appid === id)?.name ?? (running?.appid === id ? running.name : appName(id));
+  const app = selected === GLOBAL ? null : { appid: selected, name: nameOf(selected) };
   const game = app ? state.games[app.appid] : undefined;
   const editingGame = !!(app && game?.custom);
   const profile = editingGame ? game!.profile : state.global;
+
+  // Opciones del desplegable: global, luego juegos con perfil (★), luego el resto, por nombre
+  const gameIds = new Set<string>([...library.map((g) => g.appid), ...Object.keys(state.games)]);
+  if (running) gameIds.add(running.appid);
+  const sortedGames = [...gameIds]
+    .map((id) => ({ id, name: nameOf(id), custom: !!state.games[id]?.custom }))
+    .sort((a, b) => Number(b.custom) - Number(a.custom) || a.name.localeCompare(b.name));
+  const targetOptions = [
+    { data: GLOBAL, label: t("sec_global") },
+    ...sortedGames.map((g) => ({
+      data: g.id,
+      label: `${g.custom ? "★ " : ""}${g.name}${running?.appid === g.id ? ` (${t("running_tag")})` : ""}`,
+    })),
+  ];
 
   const updateProfile = (p: Profile) => {
     setState((s) => {
@@ -328,6 +387,18 @@ function Content() {
         <PanelSectionRow>
           <Field label={statusText(t, state.status)} description={t(LAYER_KEYS[state.layer_state] ?? "layer_none")}
             bottomSeparator="none" />
+        </PanelSectionRow>
+      </PanelSection>
+
+      <PanelSection title={t("edit_title")}>
+        <PanelSectionRow>
+          <DropdownItem
+            label={t("select_game")}
+            description={t("select_game_desc")}
+            rgOptions={targetOptions}
+            selectedOption={selected}
+            onChange={(o) => setSelected(String(o.data))}
+          />
         </PanelSectionRow>
       </PanelSection>
 
